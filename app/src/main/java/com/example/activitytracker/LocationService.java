@@ -8,12 +8,9 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.IInterface;
 import android.os.Looper;
-import android.os.RemoteCallbackList;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -27,65 +24,31 @@ import com.google.android.gms.location.LocationServices;
 
 public class LocationService extends Service {
 
-    RemoteCallbackList<MyBinder> remoteCallbackList = new RemoteCallbackList<>();
-
-    //Method to get current location
     private LocationCallback locationCallback = new LocationCallback() {
+        //Method to get current location
         @Override
-        public void onLocationResult(LocationResult locationResult) {
+        public void onLocationResult (LocationResult locationResult){
             super.onLocationResult(locationResult);
             if (locationResult != null && locationResult.getLastLocation() != null) { //Only call method, if we receive a result from getLastLocation
                 double latitude = locationResult.getLastLocation().getLatitude(); //users current location
                 double longitude = locationResult.getLastLocation().getLongitude();
                 Log.d("TAG", "onLocationResult: " + latitude + ", " + longitude);
-                doCallBacks(latitude, longitude);
 
-                Intent i = new Intent("locationResult");
+                Intent i = new Intent("newLocation");
                 i.putExtra("latitude", latitude);
                 i.putExtra("longitude", longitude);
                 sendBroadcast(i);
-
             }
         }
     };
 
-    public void doCallBacks(double latitude, double longitude){
-        final int n = remoteCallbackList.beginBroadcast(); //use the remote callback list (which is a broadcast to tell activities there are changes)
-        for(int i=0; i<n; i++){
-            remoteCallbackList.getBroadcastItem(i).callback.durationEvent(latitude, longitude);//list of the registered callback,
-        }
-        remoteCallbackList.finishBroadcast();
-    }
-
-    public class MyBinder extends Binder implements  IInterface {
-
-        @Override
-        public IBinder asBinder() {
-            return this;
-        }
-
-
-        //Main activity to receive a callback when something happens
-        //Sends back this callback object
-        public void registerCallback(LocationCallBack callback){
-            this.callback = callback;
-            remoteCallbackList.register(MyBinder.this);
-        }
-
-        public void unRegisterCallback(LocationCallback callback){
-            remoteCallbackList.unregister(MyBinder.this);
-        }
-        LocationCallBack callback;
-
-
-    }
-
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not implemented");
+        throw new UnsupportedOperationException("");
     }
+
+
 
     private void startLocationService() {
         String channelId = "location_notification_channel";

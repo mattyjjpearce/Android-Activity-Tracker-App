@@ -3,13 +3,16 @@ package com.example.activitytracker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationCallback;
@@ -17,35 +20,45 @@ import com.google.android.gms.location.LocationResult;
 
 public class startActivity extends AppCompatActivity {
 
+    double longitude;
+    double latitude;
+    private TextView textView;
+
+    private BroadcastReceiver broadcastReceiver;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(broadcastReceiver == null){ //if receiver does not exist, create a new one
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) { //when the broadcast get's received this method is called and we can store our new results
+                longitude = (double) intent.getExtras().get("longitude");
+                latitude = (double) intent.getExtras().get("latitude");
+                textView.setText(latitude+","+longitude);
+
+                }
+            };
+        }
+        registerReceiver(broadcastReceiver, new IntentFilter("newLocation")); //receive intent from service class titled newLocation
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(broadcastReceiver != null){
+            unregisterReceiver(broadcastReceiver); //unregisterwhen the service is stopped
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        textView = findViewById(R.id.textView2);
     }
 
-    private LocationService.MyBinder myService = null;
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder iBinder) {
-            myService = (LocationService.MyBinder) iBinder;
-            myService.registerCallback((LocationCallBack) callback);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            myService.unRegisterCallback(callback);
-            myService = null;
-        }
-    };
-
-    LocationCallback callback = new LocationCallback(){
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-            double latitude = locationResult.getLastLocation().getLatitude();
-            double longitude = locationResult.getLastLocation().getLongitude();
-        }
-    };
 
     public void startServie(View v){
         startLocationService();
