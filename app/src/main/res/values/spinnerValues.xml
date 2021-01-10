@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="spinner1values">
+        <item>Sort By:</item>
+        <item>Time</item>
+        <item>Distance Desc</item>
+        <item>Distance Asc</item>
+        <item>Average Speed</item>
+        <item>Top Speed</item>
+        <item>Recent</item>
+        <item>Oldest</item>
+    </string-array>
+
+    <string-array name="spinner2values">
+    <item>Sort By Activity:</item>
+        <item>All</item>
+        <item>Walk</item>
+        <item>Run</item>
+        <item>Jog</item>
+</string-array>
+
+</resources>

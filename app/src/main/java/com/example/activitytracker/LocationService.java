@@ -8,9 +8,11 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -22,21 +24,18 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
-public class LocationService extends Service {
+import java.util.List;
 
+public class LocationService extends Service {
     private LocationCallback locationCallback = new LocationCallback() {
         //Method to get current location
         @Override
         public void onLocationResult (LocationResult locationResult){
             super.onLocationResult(locationResult);
             if (locationResult != null && locationResult.getLastLocation() != null) { //Only call method, if we receive a result from getLastLocation
-                double latitude = locationResult.getLastLocation().getLatitude(); //users current location
-                double longitude = locationResult.getLastLocation().getLongitude();
-                Log.d("TAG", "onLocationResult: " + latitude + ", " + longitude);
-
+                Location location = locationResult.getLastLocation();
                 Intent i = new Intent("newLocation");
-                i.putExtra("latitude", latitude);
-                i.putExtra("longitude", longitude);
+                i.putExtra("location", location);
                 sendBroadcast(i);
             }
         }
@@ -90,8 +89,8 @@ public class LocationService extends Service {
 
         //Creating a location request object
         LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(5000); //Interval in which we want updates
-        locationRequest.setFastestInterval(2500); //If the location is available sooner, we get it earlier
+        locationRequest.setInterval(900); //Interval in which we want updates - set as every second so it can update the timer efficiently
+        locationRequest.setFastestInterval(700); //If the location is available sooner, we get it earlier
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 
