@@ -12,11 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".singleActivity"></activity>
-        <activity android:name=".ActivityOverview" />
-        <activity android:name=".FinishedActivity" />
-        <activity android:name=".startActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.singleActivity"></activity>
+        <activity android:name=".Activities.FinishedActivity" />
+        <activity android:name=".Activities.startActivity" />
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +24,7 @@
         </activity>
 
         <service
-            android:name=".LocationService"
+            android:name=".Services.LocationService"
             android:enabled="true"
             android:exported="false" />
     </application>

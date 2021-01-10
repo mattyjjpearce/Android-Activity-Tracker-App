@@ -1,8 +1,6 @@
-package com.example.activitytracker;
+package com.example.activitytracker.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +8,13 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.activitytracker.Activity;
+import com.example.activitytracker.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ActivityViewHolder> {
+public class SingleActivityAdapter extends RecyclerView.Adapter<SingleActivityAdapter.ActivityViewHolder> { //Same as ActivtityAdapter, but for a single item, so this time is not pressable.
 
     private List<Activity> data;
     private Context context;
@@ -21,7 +22,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
 
 
 
-    public ActivityAdapter(Context context) {
+    public SingleActivityAdapter(Context context) {
         this.data = new ArrayList<>();
         this.context = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -42,31 +43,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
     @Override
     public void onBindViewHolder(ActivityViewHolder holder, final int position) {
         holder.bind(data.get(position));
-        holder.mView.setOnClickListener(new View.OnClickListener() {
 
-            @Override //Article explaining how to implement onClickListener
-            // https://medium.com/@filswino/setting-onclicklistener-in-recyclerview-android-e6e198f5f0e2
-            public void onClick(View v) {
-                Log.d("clicked", "onClick: " + data.get(position).getId());
-                Intent intent = new Intent(context, singleActivity.class);
-
-                intent.putExtra("id", data.get(position).getId());
-                intent.putExtra("title", data.get(position).getTitle());
-                intent.putExtra("comment", data.get(position).getComment());
-                intent.putExtra("date", data.get(position).getDate());
-                intent.putExtra("totalDistance", data.get(position).getDistance());
-                intent.putExtra("averageSpeed", data.get(position).getSpeed());
-                intent.putExtra("topSpeed", data.get(position).getTopSpeed());
-                intent.putExtra("totalTime", data.get(position).getTime());
-                intent.putExtra("activityTpe", data.get(position).getActivityType());
-                intent.putExtra("rating", data.get(position).getRating());
-
-
-
-
-                v.getContext().startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -87,8 +64,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
 
     class ActivityViewHolder extends RecyclerView.ViewHolder {
 
-        View mView;
-
         TextView titleView;
         TextView dateView;
         TextView commentView;
@@ -106,8 +81,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
 
         public ActivityViewHolder(View itemView) {
             super(itemView);
-
-            mView = itemView;
 
             titleView = itemView.findViewById(R.id.titleTextView);
             dateView = itemView.findViewById(R.id.dateTextView);

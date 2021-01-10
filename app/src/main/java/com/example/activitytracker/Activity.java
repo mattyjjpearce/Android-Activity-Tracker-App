@@ -4,12 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = Activity.TABLE_NAME)
-public class Activity {
+@Entity(tableName = Activity.TABLE_NAME) //creating our entity for our database
+public class Activity { //an activity object
 
-    public static final String TABLE_NAME = "activity_table";
+    public static final String TABLE_NAME = "activity_table"; //naming this table for the database
 
-    @PrimaryKey(autoGenerate = true)
+    //initializing variables
+    @PrimaryKey(autoGenerate = true) //setting it as auto-generate so every entry is unique
     public int id;
     @NonNull
     public final String title;
@@ -24,7 +25,7 @@ public class Activity {
 
 
 
-
+    //Method to instantiate a new activity object
     public Activity(int id, @NonNull String title, @NonNull String comment, long distance, double speed, double topSpeed, String activityType, String rating, String date, long displayTime) {
         this.id = id;
         this.title = title;
@@ -38,6 +39,7 @@ public class Activity {
         this.displayTime = displayTime;
     }
 
+    //methods to return information of the activity
     public int getId(){
         return id;
     }

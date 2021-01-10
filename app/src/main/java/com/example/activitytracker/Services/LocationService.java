@@ -1,4 +1,4 @@
-package com.example.activitytracker;
+package com.example.activitytracker.Services;
 
 import android.Manifest;
 import android.app.NotificationChannel;
@@ -12,19 +12,17 @@ import android.location.Location;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
-import android.os.Parcelable;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
+import com.example.activitytracker.Constants.Constants;
+import com.example.activitytracker.R;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-
-import java.util.List;
 
 public class LocationService extends Service {
     private LocationCallback locationCallback = new LocationCallback() {
@@ -49,10 +47,9 @@ public class LocationService extends Service {
 
 
 
-    private void startLocationService() {
+    private void startLocationService() { //Method to start the service
         String channelId = "location_notification_channel";
-
-        NotificationManager notificationManager =
+        NotificationManager notificationManager = //creating a new notification manager
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Intent intent = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(
@@ -62,10 +59,11 @@ public class LocationService extends Service {
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( //creating a new notification
                 getApplicationContext(),
                 channelId
         );
+        //Setting the info of the notification
         builder.setSmallIcon(R.mipmap.ic_launcher_round);
         builder.setContentTitle("Location Service");
         builder.setDefaults(NotificationCompat.DEFAULT_ALL);
@@ -74,13 +72,13 @@ public class LocationService extends Service {
         builder.setAutoCancel(false);
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //ensuring SDK is of a minmum that is required
 
-            if (notificationManager != null && notificationManager.getNotificationChannel(channelId) == null) {
+            if (notificationManager != null && notificationManager.getNotificationChannel(channelId) == null) { //check to see notification manager is not null
                 NotificationChannel notificationChannel = new NotificationChannel(
                         channelId,
                         "Location Service",
-                        NotificationManager.IMPORTANCE_HIGH
+                        NotificationManager.IMPORTANCE_HIGH //setting the importance as high to receive updates as often as possible
                 );
                 notificationChannel.setDescription("Channel created by location service");
                 notificationManager.createNotificationChannel(notificationChannel);
@@ -107,8 +105,10 @@ public class LocationService extends Service {
         LocationServices.getFusedLocationProviderClient(this)
                 .requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
         startForeground(Constants.LOCATION_SERVICE_ID, builder.build());
-    }
+    } //end of start location method
 
+
+    //stop Location method
     private void stopLocationService(){
         LocationServices.getFusedLocationProviderClient(this)
                 .removeLocationUpdates(locationCallback);
@@ -124,7 +124,7 @@ public class LocationService extends Service {
         if (intent != null) {
             String action = intent.getAction();
             if (action != null) {
-                if (action.equals(Constants.ACTION_START_LOCATION_SERVICE)) {
+                if (action.equals(Constants.ACTION_START_LOCATION_SERVICE)) { //If the value passed from the activity is Start then start location, otherwise Stop Location service
                     startLocationService();
                 } else if (action.equals(Constants.ACTION_STOP_LOCATION_SERVICE)) {
                     stopLocationService();

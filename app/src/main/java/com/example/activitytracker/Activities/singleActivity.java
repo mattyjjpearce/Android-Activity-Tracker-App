@@ -1,4 +1,4 @@
-package com.example.activitytracker;
+package com.example.activitytracker.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -11,9 +11,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.activitytracker.Activity;
+import com.example.activitytracker.ViewModels.ActivityViewModel;
+import com.example.activitytracker.Adapters.SingleActivityAdapter;
+import com.example.activitytracker.R;
+
 import java.util.List;
 
-public class singleActivity extends AppCompatActivity {
+public class singleActivity extends AppCompatActivity { //Activity when a activity get's pressed in the recycle viewer
 
     private int id;
 
@@ -29,9 +34,10 @@ public class singleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single);
 
+        //Get Intent
         Intent intent = getIntent();
 
-        id = intent.getIntExtra("id",0);
+        id = intent.getIntExtra("id",0); //Get the id passed through the intent to then pass on to other methods
 
         adapter = new SingleActivityAdapter(this);
         recyclerView = findViewById(R.id.singleRecyclerViewer);

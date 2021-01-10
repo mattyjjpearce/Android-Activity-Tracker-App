@@ -1,4 +1,4 @@
-package com.example.activitytracker;
+package com.example.activitytracker.Activities;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,11 +12,14 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.activitytracker.Constants.Constants;
+import com.example.activitytracker.Services.LocationService;
+import com.example.activitytracker.R;
 
 import java.util.Objects;
 
@@ -138,10 +141,10 @@ public class startActivity extends AppCompatActivity {
 
 
 
-    public void startService(View v){
+    public void startService(View v){ //Start service button
         Button b = (Button) v;
         if(start){
-            startTime = System.currentTimeMillis();
+            startTime = System.currentTimeMillis(); //Get the current time the user presses start or resume
             startLocationService();
             b.setText("Pause");
             start = false;
@@ -155,20 +158,20 @@ public class startActivity extends AppCompatActivity {
 
 
     }
-    public void stopServie(View v){
+    public void stopServie(View v){ //stop the srvice
 
-        Intent intent = new Intent(startActivity.this, FinishedActivity.class);
+        Intent intent = new Intent(startActivity.this, FinishedActivity.class); //put all the values in an intent to receive in the next activity
         intent.putExtra("totalDistance", totalDistance);
         intent.putExtra("averageSpeed", averageKmH);
         intent.putExtra("topSpeed", currentTopSpeed);
         intent.putExtra("totalTime", elapsedSeconds);
 
-        stopLocationService();
+        stopLocationService(); //stop service
 
         startActivity(intent); //start new activity and pass the intent with all the values
     }
 
-    private boolean isLocationServiceRunning() {
+    private boolean isLocationServiceRunning() { //Method to check is the service is running, returns true or false
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         if (activityManager != null) {
             for (ActivityManager.RunningServiceInfo service :

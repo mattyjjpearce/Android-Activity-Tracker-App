@@ -1,4 +1,4 @@
-package com.example.activitytracker;
+package com.example.activitytracker.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,11 +16,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.activitytracker.Activity;
+import com.example.activitytracker.ViewModels.ActivityViewModel;
+import com.example.activitytracker.Adapters.ActivityAdapter;
+import com.example.activitytracker.Constants.Constants;
+import com.example.activitytracker.R;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1; //permission code to allow location on device
 
     private ActivityViewModel viewModel;
     private ActivityAdapter adapter;
@@ -34,15 +41,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityCompat.requestPermissions(
+
+        ActivityCompat.requestPermissions( //requesting permission to track location
                 MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_CODE_LOCATION_PERMISSION
-        );
+                REQUEST_CODE_LOCATION_PERMISSION);
 
-        //finding the spinner and storing it in our local spinner
+        //finding the spinner and storing it in our local spinner (drop down list to filter and sort the items)
         sortBySpinner = findViewById(R.id.spinner);
-
         sortByActivitySpinner = findViewById(R.id.spinner2);
 
 
@@ -68,19 +74,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-
+        //Initializing the adapter
         adapter = new ActivityAdapter(this);
         recyclerView = findViewById(R.id.recyclerViewMain);
 
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter); //setting adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication()))
-                .get(ActivityViewModel.class);
+                .get(ActivityViewModel.class); //setting view model to activityViewModel
 
         viewModel.getAllActivities().observe(this, new Observer<List<Activity>>() {
             @Override
-            public void onChanged(List<Activity> activity) {
+            public void onChanged(List<Activity> activity) {        //Calling all existing activities into the adapter (displayed in recycler view)
                 adapter.setActivityData(activity);
             }
         });
@@ -96,12 +102,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     //Methods when the spinner has selected an item
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        //If they select the sort by drop down menu (spinner)
         if (parent.getId() == R.id.spinner) {
-            String valueFromSpinner = parent.getItemAtPosition(position).toString();
+            String valueFromSpinner = parent.getItemAtPosition(position).toString(); //set selected filter equal to valueFromSpinner
 
-            Log.d("spinner", "onItemSelected: " + valueFromSpinner);
-
-
+            //Statements to check which value has been chosen, then the appropriate viewmodel method get's called depending on how to sort them
             if (valueFromSpinner.equals("Time")) {
                 viewModel.getByTime().observe(this, new Observer<List<Activity>>() {
                     @Override
@@ -159,6 +165,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 });
             }
         }
+
+        //If the above has not been called, is because the second spinner has been selected which in this case filters the objects based on the Activity Type
         String valueFromSpinner = parent.getItemAtPosition(position).toString();
 
          if(valueFromSpinner.equals(Constants.ACTIVITY_TYPE_RUN)){
@@ -200,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    //delete all activities button
     public void deleteAll(View v){
         viewModel.DeleteAllActivities();
     }
