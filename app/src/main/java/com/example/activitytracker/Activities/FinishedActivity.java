@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.activitytracker.Activity;
+import com.example.activitytracker.Entities.Activity;
 import com.example.activitytracker.ViewModels.ActivityViewModel;
 import com.example.activitytracker.Constants.Constants;
 import com.example.activitytracker.DAOs.ActivityDAO;

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.activitytracker.Activity;
+import com.example.activitytracker.Entities.Activity;
 import com.example.activitytracker.R;
 
 import java.util.ArrayList;

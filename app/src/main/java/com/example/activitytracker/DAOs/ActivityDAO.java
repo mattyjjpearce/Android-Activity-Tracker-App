@@ -1,17 +1,24 @@
 package com.example.activitytracker.DAOs;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.activitytracker.Activity;
+import com.example.activitytracker.Entities.Activity;
 
 import java.util.List;
 
 @Dao
 public interface ActivityDAO { //handles all the inserts, deletes and queries for the database using SQLite
+
+
+    @Query("SELECT * FROM activity_table")
+    Cursor findAll();
+
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)  //inserting a new activity
     void insert (Activity activity);
@@ -29,6 +36,8 @@ public interface ActivityDAO { //handles all the inserts, deletes and queries fo
     //Wrapped in  LiveData objects in order for it to become life-cycle aware
     @Query("SELECT * FROM activity_table")
     LiveData<List<Activity>> getAllActivities();
+
+
 
     //All the following are to query (get) the database differently
     @Query("SELECT * FROM activity_table WHERE id = :id ")

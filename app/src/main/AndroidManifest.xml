@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.singleActivity"></activity>
+        <activity android:name=".ContentProviders.contentActivity"></activity>
+        <activity android:name=".Activities.singleActivity" />
         <activity android:name=".Activities.FinishedActivity" />
         <activity android:name=".Activities.startActivity" />
         <activity android:name=".Activities.MainActivity">

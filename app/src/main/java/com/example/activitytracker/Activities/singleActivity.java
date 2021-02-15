@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.activitytracker.Activity;
+import com.example.activitytracker.Entities.Activity;
 import com.example.activitytracker.ViewModels.ActivityViewModel;
 import com.example.activitytracker.Adapters.SingleActivityAdapter;
 import com.example.activitytracker.R;

@@ -1,18 +1,22 @@
-package com.example.activitytracker;
+package com.example.activitytracker.Entities;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = Activity.TABLE_NAME) //creating our entity for our database
 public class Activity { //an activity object
 
+    public static final String COLUMN_NAME = "title";
+
     public static final String TABLE_NAME = "activity_table"; //naming this table for the database
 
     //initializing variables
     @PrimaryKey(autoGenerate = true) //setting it as auto-generate so every entry is unique
     public int id;
-    @NonNull
+    @NonNull   @ColumnInfo(name = COLUMN_NAME)
+
     public final String title;
     public final String comment;
     public final long distance;

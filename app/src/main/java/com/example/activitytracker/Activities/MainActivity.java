@@ -16,7 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.activitytracker.Activity;
+import com.example.activitytracker.Entities.Activity;
 import com.example.activitytracker.ViewModels.ActivityViewModel;
 import com.example.activitytracker.Adapters.ActivityAdapter;
 import com.example.activitytracker.Constants.Constants;
@@ -211,6 +211,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     //delete all activities button
     public void deleteAll(View v){
         viewModel.DeleteAllActivities();
+
+
     }
 }
 

@@ -2,7 +2,6 @@ package com.example.activitytracker.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.activitytracker.Activity;
+import com.example.activitytracker.Entities.Activity;
 import com.example.activitytracker.R;
 import com.example.activitytracker.Activities.singleActivity;
 

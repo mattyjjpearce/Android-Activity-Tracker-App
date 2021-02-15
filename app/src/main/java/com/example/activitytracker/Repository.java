@@ -6,6 +6,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.example.activitytracker.DAOs.ActivityDAO;
+import com.example.activitytracker.Entities.Activity;
 
 import java.util.List;
 

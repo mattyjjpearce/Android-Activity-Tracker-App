@@ -6,6 +6,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.activitytracker.DAOs.ActivityDAO;
+import com.example.activitytracker.Entities.Activity;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
